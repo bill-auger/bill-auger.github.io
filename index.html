@@ -1,8 +1,203 @@
-<html><head><title>Bill Auger - bill-auger.github.io</title></head>
+<html><head><title>Bill Auger - bill-auger.github.io</title>
+
+<style type="text/css">
+
+#navTd       { width: 200px ; vertical-align: top ; }
+#meImg       { width: 200px ; height: 200px ; }
+ul           { font-size: small ; }
+#contentTd   { padding-left: 5px ; padding-right: 5px ; }
+#projectsDiv { padding-left: 20px ; padding-right: 20px ; }
+
+#projectsH3      { text-align: center ; }
+.projectTitleDiv { font-weight: bold ; }
+.projectDescDiv  { padding-left: 40px ; font-style: italic ; }
+.projectLinksDiv { padding-left: 80px ; }
+
+#chatFrame { width: 100% ; height: 480px ; }
+
+#mainTable                { position:relative ; top: -8px ; }
+#projectsDiv , #chatFrame { position:relative ; top: 8px ; }
+
+</style>
+
+<script type="text/javascript" src="constants.js"></script>
+<script type="text/javascript" src="projects.js"></script>
+<script type="text/javascript">
+
+var VLINE_APP_URL = "https://bill-auger.herokuapp.com/users/sign_in?email=user5@example.com" ;
+
+var CONTENT_TD_ID        = 'contentTd' ;
+var CHAT_FRAME_ID        = 'chatFrame' ;
+var PROJECTS_H3_ID       = 'projectsH3' ;
+var PROJECTS_DIV_ID      = 'projectsDiv' ;
+var PROJECT_TITLE_DIV_ID = 'projectTitleDiv' ;
+var PROJECT_DESC_DIV_ID  = 'projectDescDiv' ;
+var PROJECT_LINKS_DIV_ID = 'projectLinksDiv' ;
+
+var PROJECT_TITLE_KEY  = 'title' ;
+var PROJECT_DESC_KEY   = 'desc';
+var PROJECT_SITE_KEY   = 'site_url' ;
+var PROJECT_SOURCE_KEY = 'source_url' ;
+var PROJECT_LANG_KEY   = 'language' ;
 
 
-<body>
+var Projects = new Array() ;
 
-hello github
+var seasideTextEditor = new Object() ;
+seasideTextEditor[PROJECT_TITLE_KEY]  = 'Seaside Text Editor (2012 jan)' ;
+seasideTextEditor[PROJECT_DESC_KEY]   = 'A realtime multi-user collaborative text editor with voice chat.' ;
+seasideTextEditor[PROJECT_SITE_KEY]   = 'http://mr-jonze.seasidehosting.st/ajaxtexteditor' ;
+seasideTextEditor[PROJECT_SOURCE_KEY] = '' ;
+seasideTextEditor[PROJECT_LANG_KEY]   = 'smalltalk' ;
+Projects.push(seasideTextEditor) ;
+
+var teamStream = new Object() ;
+teamStream[PROJECT_TITLE_KEY]  = 'TeamStream (2012 apr)' ;
+teamStream[PROJECT_DESC_KEY]   = 'A NINJAM client specialized for teamstreaming. Based on the original NINJAM win32 source.' ;
+teamStream[PROJECT_SITE_KEY]   = 'http://teamstream.heroku.com' ;
+teamStream[PROJECT_SOURCE_KEY] = 'https://github.com/bill-auger/TeamStream' ;
+teamStream[PROJECT_LANG_KEY]   = 'c++' ;
+Projects.push(teamStream) ;
+
+var loopidity = new Object() ;
+loopidity[PROJECT_TITLE_KEY]  = 'Loopidity (2012 aug)' ;
+loopidity[PROJECT_DESC_KEY]   = 'A multitrack looping audio recorder for GNU/Linux designed for live handsfree use. Requires the JACK and SDL libraries.' ;
+loopidity[PROJECT_SITE_KEY]   = '' ;
+loopidity[PROJECT_SOURCE_KEY] = 'https://github.com/bill-auger/Loopidity' ;
+loopidity[PROJECT_LANG_KEY]   = 'c++' ;
+Projects.push(loopidity) ;
+
+var webjam = new Object() ;
+webjam[PROJECT_TITLE_KEY]  = 'Webjam (2013 mar)' ;
+webjam[PROJECT_DESC_KEY]   = 'A dhtml frontend for NINJAM. Based on the original NINJAM ncurses source. (incomplete proof-of-concept)' ;
+webjam[PROJECT_SITE_KEY]   = '' ;
+webjam[PROJECT_SOURCE_KEY] = 'https://github.com/bill-auger/Webjam' ;
+webjam[PROJECT_LANG_KEY]   = 'c++/js' ;
+Projects.push(webjam) ;
+
+var slucumber = new Object() ;
+slucumber[PROJECT_TITLE_KEY]  = 'Slucumber (2013 jun)' ;
+slucumber[PROJECT_DESC_KEY]   = 'A website for creating cucumber-esque specifications of LSL projects.' ;
+slucumber[PROJECT_SITE_KEY]   = '' ;
+slucumber[PROJECT_SOURCE_KEY] = 'https://github.com/bill-auger/Slucumber' ;
+slucumber[PROJECT_LANG_KEY]   = 'ruby' ;
+Projects.push(slucumber) ;
+
+var thisChat = new Object() ;
+thisChat[PROJECT_TITLE_KEY]  = 'The Chat Room on This Page (2013 jul)' ;
+thisChat[PROJECT_DESC_KEY]   = 'Using the vLine API for voice and chat relay' ;
+thisChat[PROJECT_SITE_KEY]   = '' ;
+thisChat[PROJECT_SOURCE_KEY] = '' ;
+thisChat[PROJECT_LANG_KEY]   = 'ruby' ;
+Projects.push(thisChat) ;
+
+var bridginPhp = new Object() ;
+bridginPhp[PROJECT_TITLE_KEY]  = 'Bridgin-PHP (2013 aug)' ;
+bridginPhp[PROJECT_DESC_KEY]   = 'A php cli script for bridging multiple chat conversations. (superceeded by bridgin)' ;
+bridginPhp[PROJECT_SITE_KEY]   = '' ;
+bridginPhp[PROJECT_SOURCE_KEY] = 'https://github.com/bill-auger/bridgin-php' ;
+bridginPhp[PROJECT_LANG_KEY]   = 'php' ;
+Projects.push(bridginPhp) ;
+
+var bridgin = new Object() ;
+bridgin[PROJECT_TITLE_KEY]  = 'Bridgin (2013 sep)' ;
+bridgin[PROJECT_DESC_KEY]   = 'A purple plugin for bridging multiple chat conversations.' ;
+bridgin[PROJECT_SITE_KEY]   = '' ;
+bridgin[PROJECT_SOURCE_KEY] = 'https://github.com/bill-auger/bridgin' ;
+bridgin[PROJECT_LANG_KEY]   = 'c' ;
+Projects.push(bridgin) ;
+
+
+var ContentTd ;
+
+
+function init() { if (ContentTd = document.getElementById(CONTENT_TD_ID)) createGUI() ; }
+
+function createGUI()
+{
+  var chatFrame               = document.createElement('iframe') ;
+  chatFrame.setAttribute('id' , CHAT_FRAME_ID) ;
+  chatFrame.src               = VLINE_APP_URL ;
+
+  var projectsDiv               = document.createElement('div') ;
+  projectsDiv.setAttribute('id' , PROJECTS_DIV_ID) ;
+  var projectsH3                = document.createElement('h3') ;
+  projectsH3.setAttribute('id'  , PROJECTS_H3_ID) ;
+  var projectH3Text             = document.createTextNode("Some neat stuff i made:") ;
+
+  ContentTd  .appendChild(chatFrame) ;
+  ContentTd  .appendChild(projectsDiv) ;
+  projectsDiv.appendChild(projectsH3) ;
+  projectsH3 .appendChild(projectH3Text) ;
+
+  Projects.forEach(function(aProject)
+  {
+    var projectTitle       = aProject[PROJECT_TITLE_KEY] ;
+    var projectDescription = aProject[PROJECT_DESC_KEY] ;
+    var projectSiteUrl     = aProject[PROJECT_SITE_KEY] ;
+    var projectSourceUrl   = aProject[PROJECT_SOURCE_KEY] ;
+    var projectLanguage    = aProject[PROJECT_LANG_KEY] ;
+
+    // instantiation
+    var projectTitleDiv        = document.createElement('div') ;
+    var projectTitleText       = document.createTextNode(projectTitle) ;
+    var projectDescDiv         = document.createElement('div') ;
+    var projectDescriptionText = document.createTextNode(projectDescription) ;
+    var projectLinksDiv        = document.createElement('div') ;
+    var projectSiteA           = document.createElement('a') ;
+    var projectSourceA         = document.createElement('a') ;
+    var projectLanguageText    = document.createTextNode("(" + projectLanguage + ")") ;
+
+    // configuration
+    projectTitleDiv.setAttribute('class' , PROJECT_TITLE_DIV_ID) ;
+    projectDescDiv .setAttribute('class' , PROJECT_DESC_DIV_ID) ;
+    projectLinksDiv.setAttribute('class' , PROJECT_LINKS_DIV_ID) ;
+    projectSiteA   .href                 = projectSiteUrl ;
+    projectSiteA   .innerHTML            = "website" ;
+    projectSourceA .href                 = projectSourceUrl ;
+    projectSourceA .innerHTML            = "source" ;
+
+    // topology
+    projectsDiv    .appendChild(projectTitleDiv) ;
+    projectTitleDiv.appendChild(projectTitleText) ;
+    projectsDiv    .appendChild(projectDescDiv) ;
+    projectDescDiv .appendChild(projectDescriptionText) ;
+    projectsDiv    .appendChild(projectLinksDiv) ;
+    if (projectSiteUrl)
+    {
+      projectLinksDiv.appendChild(projectSiteA) ;
+      projectLinksDiv.appendChild(document.createTextNode(" ")) ;
+    }
+    if (projectSourceUrl)
+    {
+      projectLinksDiv.appendChild(projectSourceA) ;
+      projectLinksDiv.appendChild(document.createTextNode(" ")) ;
+    }
+    projectLinksDiv.appendChild(projectLanguageText) ;
+  }) ;
+}
+
+</script>
+
+</head><body onload="init()">
+
+<table id="mainTable">
+  <tr>
+    <td id="navTd">
+      <hr>
+      <img id="meImg" src="me.300x300.jpg">
+      <hr>
+      bill auger<br />massachusetts
+      <hr>
+      <ul>
+        <li>bitsmith
+        <li>musical nerd
+        <li>all around swell guy
+      </ul>
+      <hr>
+    </td>
+    <td id="contentTd"></td>
+  </tr>
+<table>
 
 </body></html>
