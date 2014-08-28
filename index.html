@@ -3,32 +3,38 @@
 
 <style type="text/css">
 
-body      { background-color: #111 ; color: #880 ; }
-hr        { border-color: #080 ; }
+body      { background-color: #111 ; color: #080 ; }
+hr        { border-color: #ff0 ; }
 a.link    { color: #004 ; }
 a.visited { color: #304 ; }
+
+
+#mainTable , #chatFrame , #contentHr , #projectsDiv { position:relative ; }
+#chatFrame , #projectsDiv , .projectDiv             { border-radius:10px ; }
+#chatFrame                                          { border: 1px solid #0996ed ; }
+#projectsDiv , .projectDiv                          { border: 1px solid #080 ; }
+#mainTable   { top: -8px ; width: 100% ; }
+#chatFrame   { top:  8px ; }
+#contentHr   { top:  8px ; }
+#projectsDiv { top:  16px ; }
+
 
 #navTd  { width: 200px ; vertical-align: top ; }
 #meImg  { width: 200px ; height: 200px ; }
 .listTd { width: 32px ; text-align: right ; padding-right: 8px ; }
 .icon   { width: 16px ; height: 16px ; }
 
+
 #contentTd         { padding-left: 5px ; padding-right: 5px ; }
-#projectsDiv       { padding-left: 20px ; padding-right: 20px ; }
+#chatFrame         { width: 100% ; height: 480px ; }
 #projectsH3        { text-align: center ; }
-.projectDiv        { padding-bottom: 40px ; }
+.projectDiv        { margin: 10px ; padding: 10px ; background-color: #181818 ; }
 .projectTitleTable { width: 100% ; }
 .projectTitleTd    { font-weight: bold ; }
 .projectDateTd     { font-weight: bold ; text-align: right ; width:100px ; }
 .projectDescDiv    { padding-left: 40px ; font-style: italic ; }
 .projectLinksDiv   { padding-left: 80px ; }
 
-#chatFrame { width: 100% ; height: 480px ; }
-
-#mainTable   { position:relative ; top: -8px ; width: 100% ; }
-#chatFrame   { position:relative ; top: 8px ; }
-#contentHr   { position:relative ; top: 8px ; }
-#projectsDiv { position:relative ; top: 16px ; }
 </style>
 
 
@@ -253,10 +259,10 @@ function createGUI()
   }) ;
 }
 
-function addProject(name , date , desc , site , source , lang)
+function addProject(title , date , desc , site , source , lang)
 {
   var project = new Object() ;
-  project[PROJECT_TITLE_KEY]  = name ;
+  project[PROJECT_TITLE_KEY]  = title ;
   project[PROJECT_DATE_KEY]   = date ;
   project[PROJECT_DESC_KEY]   = desc ;
   project[PROJECT_SITE_KEY]   = site ;
@@ -276,7 +282,7 @@ desc   = 'A cross platform NINJAM client with linear chain-streaming mode.' ;
 site   = '' ;
 source = 'https://github.com/linjam/linjam' ;
 lang   = 'c++ / JUCE,libninjam' ;
-addProject(name , date , desc , site , source , lang) ;
+addProject(title , date , desc , site , source , lang) ;
 
 title  = 'Bridgin' ;
 date   = '(2013 sep)' ;
@@ -284,7 +290,7 @@ desc   = 'A purple plugin for bridging multiple chat conversations.' ;
 site   = '' ;
 source = 'https://github.com/bill-auger/bridgin' ;
 lang   = 'c / libpurple' ;
-addProject(name , date , desc , site , source , lang) ;
+addProject(title , date , desc , site , source , lang) ;
 
 title  = 'Bridgin-PHP' ;
 date   = '(2013 aug)' ;
@@ -292,7 +298,7 @@ desc   = 'A php cli script for bridging multiple chat conversations. (superceede
 site   = '' ;
 source = 'https://github.com/bill-auger/bridgin-php' ;
 lang   = 'php / dbus,libpurple' ;
-addProject(name , date , desc , site , source , lang) ;
+addProject(title , date , desc , site , source , lang) ;
 
 title  = 'The Chat Room on This Page' ;
 date   = '(2013 jul)' ;
@@ -300,7 +306,7 @@ desc   = 'Using the vLine API for voice and chat relay' ;
 site   = '' ;
 source = '' ;
 lang   = 'ruby / rails,vline' ;
-addProject(name , date , desc , site , source , lang) ;
+addProject(title , date , desc , site , source , lang) ;
 
 title  = 'Slucumber' ;
 date   = '(2013 jun)' ;
@@ -308,7 +314,7 @@ desc   = 'A website for creating cucumber-esque specifications of LSL projects.'
 site   = '' ;
 source = 'https://github.com/bill-auger/Slucumber' ;
 lang   = 'ruby / rails' ;
-addProject(name , date , desc , site , source , lang) ;
+addProject(title , date , desc , site , source , lang) ;
 
 title  = 'Webjam' ;
 date   = '(2013 mar)' ;
@@ -316,7 +322,7 @@ desc   = 'A DHTML frontend for NINJAM. Based on the original NINJAM ncurses sour
 site   = '' ;
 source = 'https://github.com/bill-auger/Webjam' ;
 lang   = 'c++,js / ncurses' ;
-addProject(name , date , desc , site , source , lang) ;
+addProject(title , date , desc , site , source , lang) ;
 
 title  = 'Loopidity' ;
 date   = '(2012 aug)' ;
@@ -324,7 +330,7 @@ desc   = 'A multitrack looping audio recorder for GNU/Linux designed for live ha
 site   = '' ;
 source = 'https://github.com/bill-auger/Loopidity' ;
 lang   = 'c++ / jack,sdl' ;
-addProject(name , date , desc , site , source , lang) ;
+addProject(title , date , desc , site , source , lang) ;
 
 title  = 'TeamStream' ;
 date   = '(2012 apr)' ;
@@ -332,7 +338,7 @@ desc   = 'A NINJAM client specialized for teamstreaming. Based on the original N
 site   = 'http://teamstream.heroku.com' ;
 source = 'https://github.com/bill-auger/TeamStream' ;
 lang   = 'c++ / win32' ;
-addProject(name , date , desc , site , source , lang) ;
+addProject(title , date , desc , site , source , lang) ;
 
 title  = 'Seaside Text Editor' ;
 date   = '(2012 jan)' ;
@@ -340,9 +346,9 @@ desc   = 'A web-based realtime multi-user collaborative text editor with voice c
 site   = 'http://mr-jonze.seasidehosting.st/ajaxtexteditor' ;
 source = '' ;
 lang   = 'smalltalk / seaside,webRTC' ;
-addProject(name , date , desc , site , source , lang) ;
-
+addProject(title , date , desc , site , source , lang) ;
 
 </script>
+
 
 </head><body></body></html>
