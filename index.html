@@ -43,7 +43,7 @@ a.visited { color: #304 ; }
 
 /* constants */
 
-var VLINE_APP_URL  = "https://bill-auger.herokuapp.com" ;
+var APP_URL        = "https://bill-auger.firebaseapp.com" ;
 var ME_IMG_URL     = "me.300x300.jpg" ;
 var BITS_IMG_URL   = "my-bits.png" ;
 var CLEF_IMG_URL   = "my-clef.png" ;
@@ -153,7 +153,7 @@ function createGUI()
 
   contentTd .setAttribute('id'  , CONTENT_TD_ID) ;
   chatFrame .setAttribute('id'  , CHAT_FRAME_ID) ;
-  chatFrame .src                = VLINE_APP_URL ;
+  chatFrame .src                = APP_URL ;
   contentHr .setAttribute('id'  , CONTENT_HR_ID) ;
   projectsDiv.setAttribute('id' , PROJECTS_DIV_ID) ;
   projectsH3.setAttribute('id'  , PROJECTS_H3_ID) ;
