@@ -43,7 +43,8 @@ a.visited { color: #304 ; }
 
 /* constants */
 
-var APP_URL        = "https://bill-auger.firebaseapp.com" ;
+var CHAT_FRAME_URL = "https://bill-auger.firebaseapp.com" ;
+var LCTV_EMBED_URL = "https://www.livecoding.tv/bill-auger/embed" ;
 var ME_IMG_URL     = "me.300x300.jpg" ;
 var BITS_IMG_URL   = "my-bits.png" ;
 var CLEF_IMG_URL   = "my-clef.png" ;
@@ -91,7 +92,29 @@ var Projects = new Array() ;
 
 /* functions */
 
-window.onload = createGUI ;
+// window.onload = createGUI ;
+// TODO: move stream check to chat site
+window.onload = checkStreamStatus ;
+var IsStreaming = false ;
+function checkStreamStatus()
+{
+  var timeout = window.setTimeout(createGUI , 5000) ;
+
+  var xhr = new XMLHttpRequest() ;
+  xhr.open("GET" , "https://www.livecoding.tv/livestreams/") ;
+  xhr.setRequestHeader("Content-type" , "application/json") ;
+  xhr.onreadystatechange = function()
+  {
+    if (xhr.readyState != 4) return ;
+
+    IsStreaming = !!(~xhr.responseText.indexOf("/video/livestream/bill-auger/thumbnail")) ;
+
+    if (IsStreaming) CHAT_FRAME_URL = LCTV_EMBED_URL ;
+    window.clearTimeout(timeout) ; createGUI() ;
+  }
+  xhr.send() ;
+}
+
 function createGUI()
 {
   /* instantiation */
@@ -153,7 +176,7 @@ function createGUI()
 
   contentTd .setAttribute('id'  , CONTENT_TD_ID) ;
   chatFrame .setAttribute('id'  , CHAT_FRAME_ID) ;
-  chatFrame .src                = APP_URL ;
+  chatFrame .src                = CHAT_FRAME_URL ;
   contentHr .setAttribute('id'  , CONTENT_HR_ID) ;
   projectsDiv.setAttribute('id' , PROJECTS_DIV_ID) ;
   projectsH3.setAttribute('id'  , PROJECTS_H3_ID) ;
@@ -193,6 +216,20 @@ function createGUI()
 
   mainTr     .appendChild(contentTd) ;
   contentTd  .appendChild(chatFrame) ;
+
+if (IsStreaming)
+{
+// chatFrame.allowfullscreen = 'true' ;
+// chatFrame.frameborder = '0' ;
+chatFrame.scrolling = 'no' ;
+chatFrame.style.width = '800px' ;
+chatFrame.style.height = '450px' ;
+var linkP = document.createElement('p') ;
+linkP.innerHTML = 'chat with me at my livecoding.tv channel --> <a href="https://www.livecoding.tv/bill-auger/">https://www.livecoding.tv/bill-auger/</a>' ;
+contentTd.appendChild(linkP) ;
+contentTd.style.textAlign = 'center' ;
+}
+
   contentTd  .appendChild(contentHr) ;
   contentTd  .appendChild(projectsDiv) ;
   projectsDiv.appendChild(projectsH3) ;
@@ -276,6 +313,22 @@ function addProject(title , date , desc , site , source , lang)
 /* projects */
 
 var name , date , desc , site , source , lang ;
+
+title  = 'AvCaster' ;
+date   = '(2015 sep)' ;
+desc   = 'A simple native gStreamer GUI for screencast, webcam, and audio streaming.' ;
+site   = '' ;
+source = 'https://github.com/bill-auger/av-caster' ;
+lang   = 'c++ / JUCE,gStreamer,libircclient' ;
+addProject(title , date , desc , site , source , lang) ;
+
+title  = 'git-branch-status' ;
+date   = '(2014 oct)' ;
+desc   = 'A bash script to print out pretty git branch sync status reports.' ;
+site   = '' ;
+source = 'https://gist.github.com/bill-auger/9335fe2633eae38d3070' ;
+lang   = 'bash' ;
+addProject(title , date , desc , site , source , lang) ;
 
 title  = 'LinJam' ;
 date   = '(2014 jun)' ;
